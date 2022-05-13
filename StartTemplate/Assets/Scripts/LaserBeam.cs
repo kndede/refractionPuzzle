@@ -2,40 +2,49 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LaserBeam
+public class LaserBeam 
 {
     Vector3 pos, dir;
+
+    public Gradient gradient;
 
     public GameObject laserObj;
     LineRenderer laser;
     List<Vector3> laserIndices = new List<Vector3>();
+
+    private GameObject flash;
+    private GameObject Hit;
+
+    public float nozzlePoint=0.5f;
 
     Dictionary<string, float> refractiveMaterials = new Dictionary<string, float>()
     {
         {"Air",1.0f },
         {"Glass",1.5f }
     };
-    public LaserBeam(Vector3 pos, Vector3 dir, Material mat)
+    public LaserBeam(Vector3 pos, Vector3 dir, Material mat,Gradient gradient,GameObject hit,AnimationCurve widthCurve)
     {
         this.laser = new LineRenderer();
         this.laserObj = new GameObject();
         this.laserObj.name = "Laser Beam";
         this.pos = pos;
         this.dir = dir;
-
+        this.Hit = hit;
 
         this.laser = this.laserObj.AddComponent(typeof(LineRenderer)) as LineRenderer;
-        this.laser.startWidth = 0.1f;
-        this.laser.endWidth = 0.1f;
+        this.laser.widthCurve = widthCurve;
         this.laser.material = mat;
+        this.laser.colorGradient = gradient;
+        this.laser.textureMode = LineTextureMode.Stretch;
         //this.laser.startColor = Color.green;
         //this.laser.endColor = Color.green;
 
         CastRay(pos, dir, laser);
     }
-
+   
     void CastRay(Vector3 pos, Vector3 dir, LineRenderer laser)
     {
+        
         laserIndices.Add(pos);
         Ray ray = new Ray(pos, dir);
         RaycastHit hit;
@@ -49,7 +58,7 @@ public class LaserBeam
             UpdateLaser();
         }
     }
-
+    private bool isEnded=false;
     private void CheckHit(RaycastHit hitInfo, Vector3 direction, LineRenderer laser)
     {
         if (hitInfo.collider.gameObject.tag == "Mirror")
@@ -91,11 +100,13 @@ public class LaserBeam
         }
         else if (hitInfo.collider.gameObject.tag == "End")
         {
-            Vector3 pos = hitInfo.point;
-            //Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
+           // Vector3 pos = hitInfo.point;
+            hitInfo.collider.gameObject.GetComponent<EndObject>().Ending();
+            isEnded = true;
 
-            //CastRay(pos, dir, laser);
-            Debug.Log("Congratilations!");
+            laserIndices.Add(hitInfo.point);
+            UpdateLaser();
+            Debug.Log("Congratulations!");
 
         }
         else
@@ -118,6 +129,13 @@ public class LaserBeam
         foreach (Vector3 idx in laserIndices)
         {
             laser.SetPosition(count, idx);
+            if (count!=0)
+            {
+                
+                Vector3 hitPos = idx- laserIndices[count].normalized * 0.1f;
+                GameObject.Instantiate(Hit, hitPos, Quaternion.identity, this.laserObj.transform);
+            }
+           
             count++;
         }
     }
