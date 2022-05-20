@@ -8,6 +8,7 @@ TagManager:
   - Mirror
   - Refract
   - End
+  - Drop
   layers:
   - Default
   - TransparentFX
