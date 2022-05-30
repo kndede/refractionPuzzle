@@ -9,31 +9,37 @@ public class EndObject : MonoBehaviour
     public AnimationCurve lightScaling;
     public float scalingRate=0.1f;
     public Vector3 maxScale;
+
+    public static bool endHit=false;
     private void Start()
     {
         light.gameObject.transform.localScale = new Vector3(0f, 0f, 0f);
     }
     private void Update()
     {
-        if (EndGameEvents.endGame.ended)
+        if (endHit==true)
         {
-            ScaleTheLight();
+            Ending();
         }
+       
     }
     void ScaleTheLight()
     {
-        if (light.gameObject.transform.localScale.x>=maxScale.x)
+        if (light.gameObject.transform.localScale.x >= maxScale.x)
         {
+            EndGameEvents.endGame.EndGameTrigger();
             return;
         }
         Vector3 scaling = new Vector3(1f, 1f, 1f);
-        
-        light.gameObject.transform.localScale= light.gameObject.transform.localScale+ new Vector3(1f,1f,1f)*scalingRate;
+
+        light.gameObject.transform.localScale = light.gameObject.transform.localScale + new Vector3(1f, 1f, 1f) * scalingRate*Time.deltaTime;
     }
 
     public void Ending()
     {
+        ScaleTheLight();
 
-        EndGameEvents.endGame.EndGameTrigger();
+       
     }
+   
 }

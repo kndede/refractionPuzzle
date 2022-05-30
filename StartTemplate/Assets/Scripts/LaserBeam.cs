@@ -63,6 +63,7 @@ public class LaserBeam
     {
         if (hitInfo.collider.gameObject.tag == "Mirror")
         {
+            EndObject.endHit = false;
             Vector3 pos = hitInfo.point;
             Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
 
@@ -70,6 +71,7 @@ public class LaserBeam
         }
         else if (hitInfo.collider.gameObject.tag == "Refract")
         {
+            EndObject.endHit = false;
             Vector3 pos = hitInfo.point;
             laserIndices.Add(pos);
 
@@ -98,19 +100,21 @@ public class LaserBeam
             Vector3 refractedVector2 = Refract(n2, n1, -hit2.normal, refractedVector);
             CastRay(hit2.point, refractedVector2, laser);
         }
-        else if (hitInfo.collider.gameObject.tag == "End")
+        else if (hitInfo.collider.gameObject.GetComponent<EndObject>()!=null)
         {
-           // Vector3 pos = hitInfo.point;
-            hitInfo.collider.gameObject.GetComponent<EndObject>().Ending();
+            // Vector3 pos = hitInfo.point;
+            EndObject eo = hitInfo.collider.gameObject.GetComponent<EndObject>();
+            EndObject.endHit = true;
+           
             isEnded = true;
 
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
-            Debug.Log("Congratulations!");
 
         }
         else
         {
+            EndObject.endHit = false;
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
         }
@@ -132,8 +136,17 @@ public class LaserBeam
             if (count!=0)
             {
                 
-                Vector3 hitPos = idx- laserIndices[count].normalized * 0.1f;
-                GameObject.Instantiate(Hit, hitPos, Quaternion.identity, this.laserObj.transform);
+                Vector3 hitPos = idx - laserIndices[count].normalized * 0.05f;
+                if (laserIndices.Count==(count-1))
+                {
+                    GameObject.Instantiate(Hit, hitPos, Quaternion.identity, this.laserObj.transform);
+                }
+                else
+                {
+                    GameObject.Instantiate(Hit, hitPos, Quaternion.identity, this.laserObj.transform);
+                    Hit.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                }
+                
             }
            
             count++;

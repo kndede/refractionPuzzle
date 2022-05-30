@@ -6,18 +6,23 @@ using UnityEngine;
 public class DragDrop : MonoBehaviour
 {
     Vector3 offset;
-    public DropObject dropAreaTag;
+    public DropObject dropArea;
      Vector3 lastPos;
+    public ShootLaser shooter;
 
+    Vector3 initialPos;
     private void Start()
     {
-        
+        shooter = (ShootLaser)FindObjectOfType(typeof(ShootLaser));
+        initialPos = transform.position;
     }
     private void OnMouseDown()
     {
-        offset = transform.position - MouseWorldPosition();
+
         transform.GetComponent<Collider>().enabled = false;
-        lastPos = transform.position;
+        offset = transform.position - MouseWorldPosition();
+        //lastPos = transform.position;
+        shooter.CastLaser();
     }
     private void OnMouseDrag()
     {
@@ -33,15 +38,18 @@ public class DragDrop : MonoBehaviour
         {
             if (hitInfo.transform.gameObject.GetComponent<DropObject>())
             {
-                dropAreaTag = hitInfo.transform.gameObject.GetComponent<DropObject>();
-                transform.position = dropAreaTag.GetDropPosition();
+                dropArea = hitInfo.transform.gameObject.GetComponent<DropObject>();
+                transform.position = dropArea.GetDropPosition();
+                shooter.CastLaser();
             }
             else
             {
-                transform.position = lastPos;
+                transform.position = initialPos;
+                shooter.CastLaser();
             }
         }
         transform.GetComponent<Collider>().enabled = true;
+        shooter.CastLaser();
     }
     private Vector3 MouseWorldPosition()
     {
