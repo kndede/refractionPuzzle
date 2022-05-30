@@ -9,7 +9,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: ObstacleRed
   m_Shader: {fileID: 4800000, guid: 7ffc1bc2bbb1ef64f84b552b2d2f0619, type: 3}
-  m_ShaderKeywords: TCP2_MOBILE TCP2_REFLECTIONS TCP2_REFLECTIONS_FRESNEL TCP2_RIM_LIGHTING_LIGHTMASK
+  m_ShaderKeywords: TCP2_MOBILE TCP2_REFLECTIONS_FRESNEL TCP2_RIM_LIGHTING_LIGHTMASK
     TCP2_SHADOW_LIGHT_COLOR TCP2_SPECULAR_STYLIZED TCP2_UV_NORMALS_FULL
   m_LightmapFlags: 0
   m_EnableInstancingVariants: 0
@@ -138,7 +138,7 @@ Material:
     - _RampBandsSmoothing: 0.1
     - _RampOffset: 0
     - _RampScale: 1.59
-    - _RampSmoothing: 0.071
+    - _RampSmoothing: 0.38
     - _RampThreshold: 0.424
     - _RampType: 0
     - _ReceiveShadows: 1
@@ -169,7 +169,7 @@ Material:
     - _UseNormalMap: 0
     - _UseOcclusion: 0
     - _UseOutline: 0
-    - _UseReflections: 1
+    - _UseReflections: 0
     - _UseRim: 0
     - _UseRimLightMask: 1
     - _UseShadowTexture: 0
@@ -177,15 +177,15 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 0.5890007, b: 0.20392156, a: 1}
+    - _BaseColor: {r: 1, g: 0.35545737, b: 0.20392156, a: 1}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0.8584906, g: 0.4008989, b: 0.4008989, a: 1}
-    - _HColor: {r: 1, g: 0.5801887, b: 0.5801887, a: 1}
+    - _HColor: {r: 1, g: 1, b: 1, a: 1}
     - _MatCapColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 0, g: 0, b: 0, a: 1}
     - _ReflectionColor: {r: 1, g: 1, b: 1, a: 1}
     - _RimColor: {r: 0.8, g: 0.8, b: 0.8, a: 0.5}
-    - _SColor: {r: 0.4339623, g: 0.4339623, b: 0.4339623, a: 1}
+    - _SColor: {r: 0.20754719, g: 0.2046102, b: 0.2046102, a: 1}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _SpecularColor: {r: 0.8113208, g: 0.5166429, b: 0.5166429, a: 1}
   m_BuildTextureStacks: []
