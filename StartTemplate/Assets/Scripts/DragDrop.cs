@@ -7,6 +7,7 @@ public class DragDrop : MonoBehaviour
 {
     Vector3 offset;
     public DropObject dropArea;
+    public DropObject lastDropArea;
      Vector3 lastPos;
     public ShootLaser shooter;
 
@@ -38,12 +39,31 @@ public class DragDrop : MonoBehaviour
         {
             if (hitInfo.transform.gameObject.GetComponent<DropObject>())
             {
+                
                 dropArea = hitInfo.transform.gameObject.GetComponent<DropObject>();
-                transform.position = dropArea.GetDropPosition();
-                shooter.CastLaser();
+                if (dropArea.dropIndex==0)
+                {
+
+                    transform.position = dropArea.GetDropPosition();
+
+                    dropArea.Fill();
+                    if (lastDropArea!=null)
+                    {
+                        lastDropArea.Emptying();
+                    }
+                    lastDropArea = dropArea;
+                    shooter.CastLaser();
+                }
+                else
+                {
+                   
+                    transform.position = initialPos;
+                    shooter.CastLaser();
+                }
             }
             else
             {
+               
                 transform.position = initialPos;
                 shooter.CastLaser();
             }
