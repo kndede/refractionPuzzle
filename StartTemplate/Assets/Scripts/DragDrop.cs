@@ -9,12 +9,15 @@ public class DragDrop : MonoBehaviour
     public DropObject dropArea;
     public DropObject lastDropArea;
      Vector3 lastPos;
-    public ShootLaser shooter;
+    public List<ShootLaser> shooters;
 
     Vector3 initialPos;
     private void Start()
     {
-        shooter = (ShootLaser)FindObjectOfType(typeof(ShootLaser));
+        foreach (ShootLaser item in FindObjectsOfType(typeof(ShootLaser)))
+        {
+            shooters.Add(item);
+        }
         initialPos = transform.position;
     }
     private void OnMouseDown()
@@ -23,7 +26,11 @@ public class DragDrop : MonoBehaviour
         transform.GetComponent<Collider>().enabled = false;
         offset = transform.position - MouseWorldPosition();
         //lastPos = transform.position;
-        shooter.CastLaser();
+        foreach (ShootLaser item in shooters)
+        {
+
+            item.CastLaser();
+        }
     }
     private void OnMouseDrag()
     {
@@ -51,25 +58,38 @@ public class DragDrop : MonoBehaviour
                     {
                         lastDropArea.Emptying();
                     }
-                    lastDropArea = dropArea;
-                    shooter.CastLaser();
+                    lastDropArea = dropArea; foreach (ShootLaser item in shooters)
+                    {
+
+                        item.CastLaser();
+                    }
                 }
                 else
                 {
                    
-                    transform.position = initialPos;
-                    shooter.CastLaser();
+                    transform.position = initialPos; foreach (ShootLaser item in shooters)
+                    {
+
+                        item.CastLaser();
+                    }
                 }
             }
             else
             {
                
-                transform.position = initialPos;
-                shooter.CastLaser();
+                transform.position = initialPos; foreach (ShootLaser item in shooters)
+                {
+
+                    item.CastLaser();
+                }
             }
         }
         transform.GetComponent<Collider>().enabled = true;
-        shooter.CastLaser();
+        foreach (ShootLaser item in shooters)
+        {
+
+            item.CastLaser();
+        }
     }
     private Vector3 MouseWorldPosition()
     {
