@@ -6,6 +6,7 @@ using UnityEngine;
 public class EndGameEvents : MonoBehaviour
 {
     public static EndGameEvents endGame;
+    public List<EndObject> endObjects;
 
     public event Action endIt;
     public bool ended = false;
@@ -17,9 +18,16 @@ public class EndGameEvents : MonoBehaviour
         endGame = this;
         successCanvas.SetActive(false);
     }
+
+    int objectCount = 0;
     private void Start()
     {
         endIt += End;
+        foreach (EndObject item in GameObject.FindObjectsOfType(typeof(EndObject)))
+        {
+            objectCount++;
+            endObjects.Add(item);
+        }
     }
     public void EndGameTrigger()
     {
@@ -28,7 +36,21 @@ public class EndGameEvents : MonoBehaviour
             endIt();
         }
     }
-
+    public void CheckAll()
+    {
+        int trueCount=0;
+        foreach (EndObject item in endObjects)
+        {
+            if (item.scalingOver)
+            {
+                trueCount++;
+            }
+        }
+        if (trueCount==objectCount)
+        {
+            EndGameTrigger();
+        }
+    }
     void End()
     {
         ended = true;

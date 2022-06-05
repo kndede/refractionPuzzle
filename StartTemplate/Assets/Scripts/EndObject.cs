@@ -10,7 +10,9 @@ public class EndObject : MonoBehaviour
     public float scalingRate=0.1f;
     public Vector3 maxScale;
 
-    public static bool endHit=false;
+    public bool endHit=false;
+    public bool scalingOver = false;
+
     private void Start()
     {
         light.gameObject.transform.localScale = new Vector3(0f, 0f, 0f);
@@ -27,7 +29,9 @@ public class EndObject : MonoBehaviour
     {
         if (light.gameObject.transform.localScale.x >= maxScale.x)
         {
-            EndGameEvents.endGame.EndGameTrigger();
+
+            scalingOver = true;
+            EndGameEvents.endGame.CheckAll();
             return;
         }
         Vector3 scaling = new Vector3(1f, 1f, 1f);

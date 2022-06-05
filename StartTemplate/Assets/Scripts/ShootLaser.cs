@@ -6,6 +6,7 @@ public class ShootLaser : MonoBehaviour
 {
     public Material material;
     public Gradient gradient;
+    public EndObject endObject;
     LaserBeam beam;
 
 
@@ -51,7 +52,7 @@ public class ShootLaser : MonoBehaviour
                 material.SetTextureScale("_MainTex", new Vector2(Length[0], Length[1]));
                 material.SetTextureScale("_Noise", new Vector2(Length[2], Length[3]));
                 //beam.gradient = gradient;
-                beam = new LaserBeam(gameObject.transform.position, gameObject.transform.forward, material, gradient, Hit, laserWidth);
+                beam = new LaserBeam(gameObject.transform.position, gameObject.transform.forward, material, gradient, Hit, laserWidth,endObject);
             
 
 

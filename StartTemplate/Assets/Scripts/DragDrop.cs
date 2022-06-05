@@ -10,6 +10,7 @@ public class DragDrop : MonoBehaviour
     public DropObject lastDropArea;
      Vector3 lastPos;
     public List<ShootLaser> shooters;
+    public Transform parentPos;
 
     Vector3 initialPos;
     private void Start()
@@ -18,7 +19,7 @@ public class DragDrop : MonoBehaviour
         {
             shooters.Add(item);
         }
-        initialPos = transform.position;
+        initialPos = parentPos.position;
     }
     private void OnMouseDown()
     {
@@ -34,7 +35,7 @@ public class DragDrop : MonoBehaviour
     }
     private void OnMouseDrag()
     {
-        transform.position = MouseWorldPosition() + offset;
+        parentPos.position = MouseWorldPosition() + offset;
     }
 
     private void OnMouseUp()
@@ -51,14 +52,15 @@ public class DragDrop : MonoBehaviour
                 if (dropArea.dropIndex==0)
                 {
 
-                    transform.position = dropArea.GetDropPosition();
+                    parentPos.position = dropArea.GetDropPosition();
 
                     dropArea.Fill();
-                    if (lastDropArea!=null)
+                    if (lastDropArea!=null&&lastDropArea!=dropArea)
                     {
                         lastDropArea.Emptying();
                     }
-                    lastDropArea = dropArea; foreach (ShootLaser item in shooters)
+                    lastDropArea = dropArea; 
+                    foreach (ShootLaser item in shooters)
                     {
 
                         item.CastLaser();
@@ -66,8 +68,9 @@ public class DragDrop : MonoBehaviour
                 }
                 else
                 {
-                   
-                    transform.position = initialPos; foreach (ShootLaser item in shooters)
+
+                    parentPos.position = initialPos;
+                    foreach (ShootLaser item in shooters)
                     {
 
                         item.CastLaser();
@@ -76,8 +79,10 @@ public class DragDrop : MonoBehaviour
             }
             else
             {
-               
-                transform.position = initialPos; foreach (ShootLaser item in shooters)
+
+                parentPos.position = initialPos;
+                dropArea.dropIndex--;
+                foreach (ShootLaser item in shooters)
                 {
 
                     item.CastLaser();

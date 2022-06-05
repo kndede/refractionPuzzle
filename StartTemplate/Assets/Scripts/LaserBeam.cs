@@ -11,6 +11,7 @@ public class LaserBeam
     public GameObject laserObj;
     LineRenderer laser;
     List<Vector3> laserIndices = new List<Vector3>();
+    EndObject endObject;
 
     private GameObject flash;
     private GameObject Hit;
@@ -22,7 +23,7 @@ public class LaserBeam
         {"Air",1.0f },
         {"Glass",1.5f }
     };
-    public LaserBeam(Vector3 pos, Vector3 dir, Material mat,Gradient gradient,GameObject hit,AnimationCurve widthCurve)
+    public LaserBeam(Vector3 pos, Vector3 dir, Material mat,Gradient gradient,GameObject hit,AnimationCurve widthCurve,EndObject thisEndObject)
     {
         this.laser = new LineRenderer();
         this.laserObj = new GameObject();
@@ -36,6 +37,7 @@ public class LaserBeam
         this.laser.material = mat;
         this.laser.colorGradient = gradient;
         this.laser.textureMode = LineTextureMode.Stretch;
+        endObject = thisEndObject;
         //this.laser.startColor = Color.green;
         //this.laser.endColor = Color.green;
 
@@ -63,7 +65,7 @@ public class LaserBeam
     {
         if (hitInfo.collider.gameObject.tag == "Mirror")
         {
-            EndObject.endHit = false;
+           endObject.endHit = false;
             Vector3 pos = hitInfo.point;
             Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
 
@@ -71,7 +73,7 @@ public class LaserBeam
         }
         else if (hitInfo.collider.gameObject.tag == "Refract")
         {
-            EndObject.endHit = false;
+            endObject.endHit = false;
             Vector3 pos = hitInfo.point;
             laserIndices.Add(pos);
 
@@ -102,9 +104,7 @@ public class LaserBeam
         }
         else if (hitInfo.collider.gameObject.GetComponent<EndObject>()!=null)
         {
-            // Vector3 pos = hitInfo.point;
-            EndObject eo = hitInfo.collider.gameObject.GetComponent<EndObject>();
-            EndObject.endHit = true;
+            endObject.endHit = true;
            
             isEnded = true;
 
@@ -114,7 +114,8 @@ public class LaserBeam
         }
         else
         {
-            EndObject.endHit = false;
+
+            endObject.endHit = false;
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
         }
