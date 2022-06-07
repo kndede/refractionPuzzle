@@ -9,6 +9,7 @@ TagManager:
   - Refract
   - End
   - Drop
+  - Gem
   layers:
   - Default
   - TransparentFX

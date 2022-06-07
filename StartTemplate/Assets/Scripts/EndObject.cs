@@ -12,6 +12,7 @@ public class EndObject : MonoBehaviour
 
     public bool endHit=false;
     public bool scalingOver = false;
+    public GameObject myGem;
 
     private void Start()
     {
@@ -21,10 +22,12 @@ public class EndObject : MonoBehaviour
     {
         if (endHit==true)
         {
+            
             Ending();
         }
        
     }
+    int collectionCount=0;
     void ScaleTheLight()
     {
         if (light.gameObject.transform.localScale.x >= maxScale.x)
@@ -33,6 +36,13 @@ public class EndObject : MonoBehaviour
             scalingOver = true;
             EndGameEvents.endGame.CheckAll();
             return;
+        }
+        if (collectionCount==0)
+        {
+            GameManager.instance.CollectGem(myGem.transform.position, 100);
+
+            myGem.SetActive(false);
+            collectionCount++;
         }
         Vector3 scaling = new Vector3(1f, 1f, 1f);
 

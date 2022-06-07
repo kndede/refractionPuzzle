@@ -107,7 +107,6 @@ public class LaserBeam
             endObject.endHit = true;
            
             isEnded = true;
-
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
 
