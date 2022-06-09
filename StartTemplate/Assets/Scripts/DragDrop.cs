@@ -81,7 +81,10 @@ public class DragDrop : MonoBehaviour
             {
 
                 parentPos.position = initialPos;
-                dropArea.dropIndex--;
+                if (lastDropArea != null)
+                {
+                    lastDropArea.Emptying();
+                }
                 foreach (ShootLaser item in shooters)
                 {
 

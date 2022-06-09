@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: GlassMat
+  m_Name: GlassMat 1
   m_Shader: {fileID: -6465566751694194690, guid: 8b588465cd0a49a46832482270ff8445, type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -35,8 +35,8 @@ Material:
     - Vector1_2de3ee301cbf4fa8b7e876b6dc041149: 0.97
     - Vector1_93157c7238454785ba106a196ff61fff: 1
     - Vector1_ab4ecac703ec485bac41fd01ac3dd8d5: 5
-    - Vector1_bc56048bd08e4b9eb52c495b4d5c4a2a: 0.85
-    - Vector1_ea950b49230e43689f013fda62e3590a: 0.45
+    - Vector1_bc56048bd08e4b9eb52c495b4d5c4a2a: 0.92
+    - Vector1_ea950b49230e43689f013fda62e3590a: -0.4
     m_Colors:
     - Color_153958036b384a81a84a1c594c74e03a: {r: 0, g: 0, b: 0, a: 0}
     - Color_b309082051e348efa7660f3bf66a8f21: {r: 0, g: 0, b: 0, a: 0.74509805}
