@@ -42,10 +42,10 @@ public class EndObject : MonoBehaviour
             if (myGem!=null)
             {
 
-                GameManager.instance.CollectGem(myGem.transform.position, 100);
+               // GameManager.instance.CollectGem(myGem.transform.position, 100);
 
-                myGem.SetActive(false);
-                collectionCount++;
+               // myGem.SetActive(false);
+               // collectionCount++;
             }
         }
         Vector3 scaling = new Vector3(1f, 1f, 1f);

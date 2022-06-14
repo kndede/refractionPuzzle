@@ -9,9 +9,17 @@ public class DropEvent : MonoBehaviour
 
     public Action Drop;
 
+    public List<DropAreas> dropAreas;
+    public List<DropObject> dropObjects;
     private void Start()
     {
          dropEvent=this;
+
+        
+        // foreach (DropAreas item in GameObject.FindObjectsOfType(typeof(DropAreas)))
+        //{
+        //    dropAreas.Add(item);
+        //}
     }
 
     public void Dropped()

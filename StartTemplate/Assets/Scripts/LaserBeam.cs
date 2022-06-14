@@ -18,12 +18,16 @@ public class LaserBeam
 
     public float nozzlePoint=0.5f;
 
+    public ShootLaser shootLaser;
+    public bool seperated;
+
+    
     Dictionary<string, float> refractiveMaterials = new Dictionary<string, float>()
     {
         {"Air",1.0f },
         {"Glass",1.5f }
     };
-    public LaserBeam(Vector3 pos, Vector3 dir, Material mat,Gradient gradient,GameObject hit,AnimationCurve widthCurve,EndObject thisEndObject)
+    public LaserBeam(Vector3 pos, Vector3 dir, Material mat,Gradient gradient,GameObject hit,AnimationCurve widthCurve,EndObject thisEndObject,bool isSeperated)
     {
         this.laser = new LineRenderer();
         this.laserObj = new GameObject();
@@ -37,10 +41,12 @@ public class LaserBeam
         this.laser.material = mat;
         this.laser.colorGradient = gradient;
         this.laser.textureMode = LineTextureMode.Stretch;
+        this.seperated = isSeperated;
         endObject = thisEndObject;
         //this.laser.startColor = Color.green;
         //this.laser.endColor = Color.green;
-
+        string myTag = "Laserbeam";
+        laserObj.tag = myTag;
         CastRay(pos, dir, laser);
     }
    
@@ -68,7 +74,8 @@ public class LaserBeam
            endObject.endHit = false;
             Vector3 pos = hitInfo.point;
             Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
-
+            GameObject hitEffect=GameObject.Instantiate(Hit, hitInfo.point, Quaternion.identity, this.laserObj.transform);
+            hitEffect.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             CastRay(pos, dir, laser);
         }
         else if (hitInfo.collider.gameObject.tag == "Refract")
@@ -104,6 +111,8 @@ public class LaserBeam
         }
         else if (hitInfo.collider.gameObject.GetComponent<EndObject>()!=null)
         {
+            GameObject hitEffect = GameObject.Instantiate(Hit, hitInfo.point, Quaternion.identity, this.laserObj.transform);
+            hitEffect.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
             endObject.endHit = true;
            
             isEnded = true;
@@ -111,9 +120,43 @@ public class LaserBeam
             UpdateLaser();
 
         }
+        else if (hitInfo.collider.gameObject.tag == "Gem")
+        {
+            GameManager.instance.CollectGem(hitInfo.transform.position, 100);
+            hitInfo.collider.gameObject.SetActive(false);
+           // laserIndices.Add(hitInfo.point);
+           // UpdateLaser();
+
+            CastRay(hitInfo.point, direction, laser);
+        }
+        else if (hitInfo.collider.gameObject.tag == "Seperator")
+        {
+            Component[] seperators=hitInfo.collider.gameObject.GetComponentsInChildren(typeof(Seperator));
+            foreach (Component item in seperators)
+            {
+                Seperator sep = item.GetComponent<Seperator>();
+
+               ShootLaser _laser = sep.gameObject.AddComponent<ShootLaser>();
+                _laser.seperated = true;
+                    _laser.gameObject.transform.SetParent(sep.transform);
+                  _laser.endObject = endObject;
+                 _laser.Hit = Hit;
+                  _laser.material = laser.material;
+                   _laser.gradient = laser.colorGradient;
+                  _laser.laserWidth = laser.widthCurve;
+                _laser.CastLaser();
+
+                
+                
+            }
+            GameObject.Instantiate(Hit, hitInfo.point, Quaternion.identity, this.laserObj.transform);
+            endObject.endHit = false;
+            laserIndices.Add(hitInfo.point);
+            UpdateLaser();
+        }
         else
         {
-
+            GameObject.Instantiate(Hit, hitInfo.point, Quaternion.identity, this.laserObj.transform);
             endObject.endHit = false;
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
@@ -130,24 +173,24 @@ public class LaserBeam
     {
         int count = 0;
         laser.positionCount = laserIndices.Count;
-        foreach (Vector3 idx in laserIndices)
-        {
-            laser.SetPosition(count, idx);
-            if (count!=0)
-            {
+             foreach (Vector3 idx in laserIndices)
+                 {
+                     laser.SetPosition(count, idx);
+                    // if (count!=0)
+                     //   {
                 
-                Vector3 hitPos = idx - laserIndices[count].normalized * 0.05f;
-                if (laserIndices.Count==(count-1))
-                {
-                    GameObject.Instantiate(Hit, hitPos, Quaternion.identity, this.laserObj.transform);
-                }
-                else
-                {
-                    GameObject.Instantiate(Hit, hitPos, Quaternion.identity, this.laserObj.transform);
-                    Hit.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-                }
+                          //   Vector3 hitPos = idx - laserIndices[count].normalized * 0.05f;
+                          //  if (laserIndices.Count==(count-1))
+                            //     {
+                               //      GameObject.Instantiate(Hit, hitPos, Quaternion.identity, this.laserObj.transform);
+                             //        }
+                           //  else
+                           //     {
+                           //             GameObject.Instantiate(Hit, hitPos, Quaternion.identity, this.laserObj.transform);
+                           //               Hit.transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
+                        //  }
                 
-            }
+                   // }
            
             count++;
         }

@@ -7,7 +7,7 @@ public class ShootLaser : MonoBehaviour
     public Material material;
     public Gradient gradient;
     public EndObject endObject;
-    LaserBeam beam;
+    public LaserBeam beam;
 
 
     public float HitOffset = 0;
@@ -21,10 +21,14 @@ public class ShootLaser : MonoBehaviour
     public AnimationCurve laserWidth;
     int counter = 0;
 
-
+    public bool seperated = false;
     private void Start()
     {
-        CastLaser();
+        if (!seperated)
+        {
+            CastLaser();
+        }
+
     }
     private void Update()
     {
@@ -48,11 +52,15 @@ public class ShootLaser : MonoBehaviour
 
             }
 
+            if (material!=null)
+            {
 
                 material.SetTextureScale("_MainTex", new Vector2(Length[0], Length[1]));
                 material.SetTextureScale("_Noise", new Vector2(Length[2], Length[3]));
+
+                beam = new LaserBeam(gameObject.transform.position, gameObject.transform.forward, material, gradient, Hit, laserWidth, endObject, seperated);
+            }
                 //beam.gradient = gradient;
-                beam = new LaserBeam(gameObject.transform.position, gameObject.transform.forward, material, gradient, Hit, laserWidth,endObject);
             
 
 
@@ -74,6 +82,10 @@ public class ShootLaser : MonoBehaviour
         //}
     }
 
+    public void DestroyLaser()
+    {
+        Destroy(this.beam.laserObj);
+    }
 
 
 

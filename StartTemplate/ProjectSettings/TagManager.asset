@@ -10,6 +10,8 @@ TagManager:
   - End
   - Drop
   - Gem
+  - Seperator
+  - Laserbeam
   layers:
   - Default
   - TransparentFX
