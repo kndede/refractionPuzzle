@@ -67,11 +67,23 @@ public class LaserBeam
         }
     }
     private bool isEnded=false;
+    private EndObject lastHitObject;
+    void TurnEndObjectFalse()
+    {
+        if (lastHitObject != null)
+        {
+
+            lastHitObject.endHit = false;
+        }
+        
+        
+    }
     private void CheckHit(RaycastHit hitInfo, Vector3 direction, LineRenderer laser)
     {
         if (hitInfo.collider.gameObject.tag == "Mirror")
         {
-           endObject.endHit = false;
+                TurnEndObjectFalse();
+            
             Vector3 pos = hitInfo.point;
             Vector3 dir = Vector3.Reflect(direction, hitInfo.normal);
             GameObject hitEffect=GameObject.Instantiate(Hit, hitInfo.point, Quaternion.identity, this.laserObj.transform);
@@ -80,7 +92,10 @@ public class LaserBeam
         }
         else if (hitInfo.collider.gameObject.tag == "Refract")
         {
-            endObject.endHit = false;
+            
+
+                TurnEndObjectFalse();
+            
             Vector3 pos = hitInfo.point;
             laserIndices.Add(pos);
 
@@ -111,11 +126,14 @@ public class LaserBeam
         }
         else if (hitInfo.collider.gameObject.GetComponent<EndObject>()!=null)
         {
+            
             GameObject hitEffect = GameObject.Instantiate(Hit, hitInfo.point, Quaternion.identity, this.laserObj.transform);
+            EndObject endObject1 = hitInfo.collider.gameObject.GetComponent<EndObject>();
+            lastHitObject = endObject1;
             hitEffect.transform.localScale = new Vector3(1.5f, 1.5f, 1.5f);
-            endObject.endHit = true;
+            endObject1.endHit = true;
            
-            isEnded = true;
+            //isEnded = true;
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
 
@@ -150,14 +168,20 @@ public class LaserBeam
                 
             }
             GameObject.Instantiate(Hit, hitInfo.point, Quaternion.identity, this.laserObj.transform);
-            endObject.endHit = false;
+            
+
+                TurnEndObjectFalse();
+            
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
         }
         else
         {
             GameObject.Instantiate(Hit, hitInfo.point, Quaternion.identity, this.laserObj.transform);
-            endObject.endHit = false;
+            
+
+                TurnEndObjectFalse();
+            
             laserIndices.Add(hitInfo.point);
             UpdateLaser();
         }
