@@ -1013,6 +1013,7 @@ MonoBehaviour:
   dropArea: {fileID: 0}
   lastDropArea: {fileID: 0}
   shooters: []
+  mySeperators: []
   parentPos: {fileID: 1263839964}
 --- !u!4 &472346445 stripped
 Transform:
@@ -1413,6 +1414,7 @@ MonoBehaviour:
   dropArea: {fileID: 0}
   lastDropArea: {fileID: 0}
   shooters: []
+  mySeperators: []
   parentPos: {fileID: 510880508}
 --- !u!65 &639335723
 BoxCollider:
@@ -1968,6 +1970,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  seperated: 0
 --- !u!65 &831212331
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2706,6 +2709,7 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+  seperated: 0
 --- !u!1 &1122515381
 GameObject:
   m_ObjectHideFlags: 0
@@ -2755,6 +2759,7 @@ MonoBehaviour:
   dropArea: {fileID: 0}
   lastDropArea: {fileID: 0}
   shooters: []
+  mySeperators: []
   parentPos: {fileID: 0}
 --- !u!65 &1122515384
 BoxCollider:
@@ -3444,6 +3449,7 @@ MonoBehaviour:
   dropArea: {fileID: 0}
   lastDropArea: {fileID: 0}
   shooters: []
+  mySeperators: []
   parentPos: {fileID: 1359117995}
 --- !u!4 &1395590139 stripped
 Transform:
@@ -4018,6 +4024,7 @@ MonoBehaviour:
   dropArea: {fileID: 0}
   lastDropArea: {fileID: 0}
   shooters: []
+  mySeperators: []
   parentPos: {fileID: 2145180114}
 --- !u!64 &1551414572
 MeshCollider:
@@ -4407,7 +4414,7 @@ Transform:
   m_GameObject: {fileID: 1673144968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.1, z: 0.3}
-  m_LocalScale: {x: 20, y: 0.2, z: 15}
+  m_LocalScale: {x: 20, y: 0.2, z: 15.82}
   m_Children: []
   m_Father: {fileID: 791918750}
   m_RootOrder: 0

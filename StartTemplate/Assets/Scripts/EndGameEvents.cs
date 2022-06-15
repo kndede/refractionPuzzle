@@ -54,6 +54,6 @@ public class EndGameEvents : MonoBehaviour
     void End()
     {
         ended = true;
-        successCanvas.SetActive(true);
+        GameManager.instance.LevelComplete();
     }
 }
