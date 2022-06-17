@@ -15,11 +15,15 @@ public class DragDrop : MonoBehaviour
 
     Vector3 initialPos;
     private bool isSeperator = false;
+
+    AnimationScript animationS;
+    Vector3 myScale;
     private void Start()
     {
         shooters=FindShooters();
         initialPos = parentPos.position;
-
+        myScale=this.transform.localScale;
+        animationS = GetComponent<AnimationScript>();
         //if (this.gameObject.GetComponent<Seperator>()!=null)
         //{
         //    isSeperator = true;
@@ -54,11 +58,14 @@ public class DragDrop : MonoBehaviour
     {
         
         transform.GetComponent<Collider>().enabled = false;
+        animationS.isScaling = false;
+        animationS.isFloating = false;
+        transform.localScale = myScale;
         foreach (var item in transform.GetComponentsInChildren<Collider>())
         {
             item.enabled = false;
         }
-        offset = transform.position - MouseWorldPosition();
+        offset = transform.parent.position - MouseWorldPosition();
         //lastPos = transform.position;
         foreach (ShootLaser item in FindShooters())
         {
@@ -128,6 +135,8 @@ public class DragDrop : MonoBehaviour
                 {
 
                     parentPos.position = initialPos;
+                    animationS.isScaling = true;
+                    animationS.isFloating = true;
                     foreach (ShootLaser item in FindShooters())
                     {
                         if (item.beam.seperated)
@@ -147,6 +156,8 @@ public class DragDrop : MonoBehaviour
             {
 
                 parentPos.position = initialPos;
+                animationS.isScaling = true;
+                animationS.isFloating = true;
                 if (lastDropArea != null)
                 {
                     lastDropArea.Emptying();

@@ -67,7 +67,7 @@ public class LaserBeam
         }
     }
     private bool isEnded=false;
-    private EndObject lastHitObject;
+    public EndObject lastHitObject;
     void TurnEndObjectFalse()
     {
         if (lastHitObject != null)
